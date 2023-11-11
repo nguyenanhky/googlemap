@@ -32,5 +32,6 @@ class ReminderDescriptionActivity : AppCompatActivity() {
         val layoutId = R.layout.activity_reminder_description
         binding = DataBindingUtil.setContentView(this, layoutId)
         // TODO: Add the implementation of the reminder details
+        binding.reminderDataItem = intent.getSerializableExtra(EXTRA_ReminderDataItem) as ReminderDataItem
     }
 }
