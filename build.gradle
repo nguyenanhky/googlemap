@@ -16,7 +16,7 @@ buildscript {
         archLifecycleVersion = '2.2.0'
         archLifecycleKtxVersion = '2.6.1'
         materialVersion = '1.8.0'
-        mockitoVersion = '5.2.0'
+        mockitoVersion = '3.8.0'
         constraintVersion = '2.1.4'
         dexMakerVersion = '2.28.3'
         coroutinesVersion = '1.6.4'
