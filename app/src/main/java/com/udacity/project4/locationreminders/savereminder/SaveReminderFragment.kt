@@ -174,7 +174,7 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun createGeofencePendingIntent(): PendingIntent {
-        val intent = Intent(activity, GeofenceBroadcastReceiver::class.java)
+        val intent = Intent(requireActivity(), GeofenceBroadcastReceiver::class.java)
         intent.action = Constance.ACTION_GEOFENCE_EVENT
 
         return PendingIntent.getBroadcast(
