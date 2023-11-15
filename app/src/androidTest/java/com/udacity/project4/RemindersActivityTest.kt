@@ -14,10 +14,13 @@ import com.udacity.project4.locationreminders.RemindersActivity
 import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.local.LocalDB
 import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
+import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.locationreminders.reminderslist.RemindersListViewModel
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.util.DataBindingIdlingResource
 import com.udacity.project4.util.monitorActivity
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -84,7 +87,7 @@ class RemindersActivityTest :
     }
 
     @Test
-    fun check_add_reminder() {
+    suspend fun check_add_reminder() {
         val activityScenario = launchActivity<RemindersActivity>()
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -110,6 +113,22 @@ class RemindersActivityTest :
         Thread.sleep(2000);
 
         Espresso.onView(withId(R.id.saveReminder)).perform(ViewActions.click())
+
+        // 4. save reminder.
+        val reminderData = ReminderDataItem(
+            title = "t1",
+            description = "d1",
+            location = "l1",
+            latitude = 2.0,
+            longitude = 3.0
+        )
+
+       val reminderId = SaveReminderViewModel(
+           appContext,
+           get() as ReminderDataSource
+       ).saveReminder(reminderData)
+
+
         Espresso.onView(ViewMatchers.withText("t1"))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText("d1"))

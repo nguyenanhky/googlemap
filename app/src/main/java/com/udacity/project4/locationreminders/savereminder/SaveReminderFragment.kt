@@ -110,8 +110,8 @@ class SaveReminderFragment : BaseFragment() {
         requestPermissions(permissionsArray, requestCode)
     }
 
-    @TargetApi (29)
-    private fun verifyLocationSettingsAndActivateGeofence(resolve:Boolean = true) {
+    @TargetApi(29)
+    private fun verifyLocationSettingsAndActivateGeofence(resolve: Boolean = true) {
         val locationRequest = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_LOW_POWER)
 
@@ -129,9 +129,17 @@ class SaveReminderFragment : BaseFragment() {
 
                     if (exception is ResolvableApiException && resolve) {
                         try {
-                            exception.startResolutionForResult(
-                                requireActivity(),
-                                Constance.REQUEST_TURN_DEVICE_LOCATION_ON
+                            val intentSender = exception.resolution as IntentSender
+                            val requestCode = Constance.REQUEST_TURN_DEVICE_LOCATION_ON
+                            val bundle = null
+                            requireActivity().startIntentSenderForResult(
+                                intentSender,
+                                requestCode,
+                                bundle,
+                                0,
+                                0,
+                                0,
+                                null
                             )
                         } catch (sendEx: IntentSender.SendIntentException) {
                             Logger.lod("Error getting location settings resolution: " + sendEx.message)
@@ -142,6 +150,7 @@ class SaveReminderFragment : BaseFragment() {
                 }
             }
     }
+
 
     @SuppressLint("MissingPermission")
     private fun createGeofenceForReminder() {
